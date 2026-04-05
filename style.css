@@ -1,75 +1,103 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f6f9;
+let transactions = [];
+let role = "viewer";
+
+function changeRole() {
+  role = document.getElementById("role").value;
+  document.getElementById("formSection").style.display =
+    role === "admin" ? "block" : "none";
 }
 
-header {
-  background: #2c3e50;
-  color: white;
-  padding: 15px;
-  text-align: center;
+function addTransaction() {
+  if (role !== "admin") return alert("Only admin allowed");
+
+  const desc = document.getElementById("desc").value;
+  const amount = parseInt(document.getElementById("amount").value);
+  const type = document.getElementById("type").value;
+
+  if (!desc || !amount) return alert("Fill all fields");
+
+  const transaction = {
+    date: new Date().toLocaleDateString(),
+    desc,
+    amount,
+    type
+  };
+
+  transactions.push(transaction);
+  updateUI();
 }
 
-.container {
-  display: flex;
+function updateUI() {
+  let balance = 0, income = 0, expense = 0;
+  let table = "";
+
+  transactions.forEach(t => {
+    if (t.type === "income") {
+      income += t.amount;
+      balance += t.amount;
+    } else {
+      expense += t.amount;
+      balance -= t.amount;
+    }
+
+    table += `
+      <tr>
+        <td>${t.date}</td>
+        <td>${t.desc}</td>
+        <td>₹${t.amount}</td>
+        <td>${t.type}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("tableData").innerHTML = table;
+
+  document.getElementById("balance").innerText = balance;
+  document.getElementById("income").innerText = income;
+  document.getElementById("expense").innerText = expense;
+
+  // Empty state
+  document.getElementById("emptyImg").style.display =
+    transactions.length === 0 ? "block" : "none";
+
+  showInsights();
 }
 
-.sidebar {
-  width: 200px;
-  background: #34495e;
-  color: white;
-  min-height: 100vh;
-  padding: 20px;
+function filterData() {
+  const value = document.getElementById("search").value.toLowerCase();
+
+  const filtered = transactions.filter(t =>
+    t.desc.toLowerCase().includes(value)
+  );
+
+  let table = "";
+  filtered.forEach(t => {
+    table += `
+      <tr>
+        <td>${t.date}</td>
+        <td>${t.desc}</td>
+        <td>₹${t.amount}</td>
+        <td>${t.type}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("tableData").innerHTML = table;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
+function showInsights() {
+  if (transactions.length === 0) {
+    document.getElementById("insightText").innerText = "No data";
+    return;
+  }
+
+  let max = transactions.reduce((a, b) =>
+    a.amount > b.amount ? a : b
+  );
+
+  document.getElementById("insightText").innerText =
+    `Highest Transaction: ${max.desc} (₹${max.amount})`;
 }
 
-.sidebar ul li {
-  margin: 10px 0;
-}
-
-.main {
-  flex: 1;
-  padding: 20px;
-}
-
-.cards {
-  display: flex;
-  gap: 20px;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  flex: 1;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 10px;
-  text-align: center;
-}
-
-button {
-  padding: 10px;
-  background: #2ecc71;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+// default
+changeRole();
