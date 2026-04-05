@@ -1,43 +1,58 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Finance Dashboard</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>Finance Dashboard</h1>
+  <div class="logo">
+    <i class="fa-solid fa-wallet"></i>
+    <h1>Finance Dashboard</h1>
+  </div>
+
+  <select id="role" onchange="changeRole()">
+    <option value="viewer">Viewer</option>
+    <option value="admin">Admin</option>
+  </select>
 </header>
 
 <div class="container">
-  <div class="sidebar">
-    <h3>Menu</h3>
-    <ul>
-      <li>Dashboard</li>
-      <li>Transactions</li>
-      <li>Reports</li>
-    </ul>
+
+  <!-- Banner Image -->
+  <div class="banner">
+    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f" alt="finance">
   </div>
 
-  <div class="main">
-    <div class="cards">
-      <div class="card">
-        <h3>Total Balance</h3>
-        <p id="balance">₹0</p>
-      </div>
-      <div class="card">
-        <h3>Income</h3>
-        <p id="income">₹0</p>
-      </div>
-      <div class="card">
-        <h3>Expenses</h3>
-        <p id="expense">₹0</p>
-      </div>
+  <!-- Cards -->
+  <div class="cards">
+    <div class="card">
+      <i class="fa-solid fa-money-bill-wave"></i>
+      <p>Balance</p>
+      ₹<span id="balance">0</span>
     </div>
 
-    <h2>Add Transaction</h2>
+    <div class="card">
+      <i class="fa-solid fa-arrow-up"></i>
+      <p>Income</p>
+      ₹<span id="income">0</span>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-arrow-down"></i>
+      <p>Expense</p>
+      ₹<span id="expense">0</span>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div id="formSection">
+    <h3><i class="fa-solid fa-plus"></i> Add Transaction</h3>
     <input type="text" id="desc" placeholder="Description">
     <input type="number" id="amount" placeholder="Amount">
     <select id="type">
@@ -45,18 +60,36 @@
       <option value="expense">Expense</option>
     </select>
     <button onclick="addTransaction()">Add</button>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>Type</th>
-        </tr>
-      </thead>
-      <tbody id="tableData"></tbody>
-    </table>
   </div>
+
+  <!-- Search -->
+  <input type="text" id="search" placeholder="Search..." onkeyup="filterData()">
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody id="tableData"></tbody>
+  </table>
+
+  <!-- Empty State -->
+  <div class="empty">
+    <img id="emptyImg" src="https://cdn-icons-png.flaticon.com/512/7486/7486741.png">
+    <p>No Transactions Yet</p>
+  </div>
+
+  <!-- Insights -->
+  <div class="insights">
+    <h3><i class="fa-solid fa-chart-line"></i> Insights</h3>
+    <p id="insightText">No data</p>
+  </div>
+
 </div>
 
 <script src="script.js"></script>
