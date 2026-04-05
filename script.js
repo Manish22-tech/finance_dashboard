@@ -1,37 +1,101 @@
-let balance = 0;
-let income = 0;
-let expense = 0;
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f6f9;
+}
 
-function addTransaction() {
-  const desc = document.getElementById('desc').value;
-  const amount = parseInt(document.getElementById('amount').value);
-  const type = document.getElementById('type').value;
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  if (!desc || !amount) {
-    alert('Please fill all fields');
-    return;
-  }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  if (type === 'income') {
-    income += amount;
-    balance += amount;
-  } else {
-    expense += amount;
-    balance -= amount;
-  }
+.logo i {
+  font-size: 22px;
+}
 
-  document.getElementById('balance').innerText = '₹' + balance;
-  document.getElementById('income').innerText = '₹' + income;
-  document.getElementById('expense').innerText = '₹' + expense;
+.container {
+  padding: 20px;
+}
 
-  const row = `<tr>
-    <td>${desc}</td>
-    <td>₹${amount}</td>
-    <td>${type}</td>
-  </tr>`;
+.banner img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 
-  document.getElementById('tableData').innerHTML += row;
+.cards {
+  display: flex;
+  gap: 15px;
+}
 
-  document.getElementById('desc').value = '';
-  document.getElementById('amount').value = '';
+.card {
+  background: white;
+  padding: 20px;
+  flex: 1;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card i {
+  font-size: 25px;
+  margin-bottom: 10px;
+  color: #2ecc71;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+input, select, button {
+  margin: 10px 5px;
+  padding: 8px;
+}
+
+button {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.empty img {
+  width: 120px;
+  display: none;
+}
+
+.insights {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
 }
